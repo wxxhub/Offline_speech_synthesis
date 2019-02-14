@@ -7,6 +7,7 @@
 > ubantu18 + python3.6.7
 
 #### 使用
-> 依赖[apt-install](apt-install.md)
-> pip3 install -r requirment.txt
-> python3 main.py
+> 依赖[apt-install](apt-install.md)  
+> pip3 install -r requirment.txt  
+> cd code  
+> python3 main.py  
