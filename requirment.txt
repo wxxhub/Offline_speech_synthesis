@@ -1,0 +1,4 @@
+pypinyin
+pygame
+pydub
+numpy
