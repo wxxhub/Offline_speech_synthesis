@@ -10,6 +10,7 @@ import os
 pygame.mixer.init()
 
 class ToAudio:
+    running_thread_num = 0
     thread_num = 0
 
     def __init__(self):
@@ -20,10 +21,15 @@ class ToAudio:
     @classmethod
     def speechSynthesis(self, sentence, num):
         # print ('test')
-        t = threading.Thread(target=self.speechSynthesisThread, args=(sentence,num))
-        t.setDaemon(False)
-        t.start()
-        sleep(0.1)
+        while True:
+            if self.running_thread_num - num < 2:
+                t = threading.Thread(target=self.speechSynthesisThread, args=(sentence,num))
+                t.setDaemon(False)
+                t.start()
+                self.thread_num = self.thread_num + 1 # sum of thread
+                sleep(0.1)
+                break
+            sleep(1)
 
     @classmethod
     def speechSynthesisThread(self, sentence, num):
@@ -47,13 +53,22 @@ class ToAudio:
     def playSpeech(self, file_name, num):
         # print ("playing...")
         while True:
-            if num == self.thread_num:
+            if num == self.running_thread_num:
                 track = pygame.mixer.music.load(file_name)
                 pygame.mixer.music.play()
                 # time.sleep(size)
                 while pygame.mixer.music.get_busy():
                     sleep(0.1)
-                self.thread_num = self.thread_num + 1
+                self.running_thread_num = self.running_thread_num + 1
                 break
             else:
                 sleep(0.5)
+
+    @classmethod
+    def isRunning(self):
+        if (self.running_thread_num == self.thread_num):
+            return False
+        else:
+            running_thread_num = 0
+            thread_num = 0
+            return True

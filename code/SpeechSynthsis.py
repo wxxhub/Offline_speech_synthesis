@@ -6,6 +6,7 @@ import re
 import numpy as np
 
 from ToAudio import ToAudio
+from time import ctime,sleep
 
 def depart(pinyins):
     num = 0
@@ -27,3 +28,6 @@ def synthesis(sentence):
     pinyins = pinyin(sentence, style=Style.TONE2)
     print (pinyins)
     depart(pinyins)
+    while ToAudio.isRunning():
+        sleep(1)
+    print ('finished')
