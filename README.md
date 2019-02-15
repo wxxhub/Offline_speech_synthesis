@@ -13,3 +13,6 @@
 > cd code  
 > python3 main.py  
 > ````  
+
+#### 说明
+> voice 文件用于测试，有多种发音，可以替换voice文件来提升合成语言效果。
