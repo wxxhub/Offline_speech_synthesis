@@ -14,7 +14,7 @@ def depart(pinyins):
         tone = re.sub(u"([^\u0030-\u0039])", "", pinyin[0])
         pronounce = re.sub(u"([^\u0061-\u007a])", "", pinyin[0])
         if pronounce == '':
-            sentence.append('null')
+            # sentence.append('null')
             ToAudio.speechSynthesis(sentence, num)
             num = num + 1
             sentence = []

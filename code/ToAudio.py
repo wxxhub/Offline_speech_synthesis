@@ -23,14 +23,15 @@ class ToAudio:
         t = threading.Thread(target=self.speechSynthesisThread, args=(sentence,num))
         t.setDaemon(False)
         t.start()
-        sleep(1)
+        sleep(0.1)
 
     @classmethod
     def speechSynthesisThread(self, sentence, num):
         # print ('start synthesis...')
-        print (sentence)
+        # print (sentence)
         size = len(sentence)
         voices = False
+        # print ('test1',num)
         file_name = '../cache/voices'+str(num)+'.wav'
         for word in sentence:
             pronounce = AudioSegment.from_mp3('../voice/'+word+'.mp3')
@@ -38,8 +39,12 @@ class ToAudio:
                 voices = pronounce
             else:
                 voices = voices + pronounce 
-        
         voices.export(file_name, format="wav")
+        # print ('test2',num)
+        self.playSpeech(file_name, num)
+    
+    @classmethod
+    def playSpeech(self, file_name, num):
         # print ("playing...")
         while True:
             if num == self.thread_num:
@@ -47,6 +52,8 @@ class ToAudio:
                 pygame.mixer.music.play()
                 # time.sleep(size)
                 while pygame.mixer.music.get_busy():
-                    sleep(1)
+                    sleep(0.1)
                 self.thread_num = self.thread_num + 1
                 break
+            else:
+                sleep(0.5)
