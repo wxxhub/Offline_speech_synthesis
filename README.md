@@ -9,9 +9,8 @@
 #### 使用
 > 依赖[apt-install](apt-install.md) 
 > ````  
-> pip3 install -r requirment.txt  
-> cd code  
-> python3 main.py  
+> pip3 install -r requirment.txt   
+> python3 demo.py  
 > ````  
 
 #### 说明
