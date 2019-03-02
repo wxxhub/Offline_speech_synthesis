@@ -2,3 +2,4 @@ pypinyin
 pygame
 pydub
 numpy
+hanint

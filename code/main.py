@@ -4,7 +4,7 @@ import sys
 from SpeechSynthsis import *
 
 def main():
-    synthesis("警报，嗯你好司法四方阿哥世界,阿斯大赛，萨嘎三个毫无疑问")
+    synthesis("警报，123号电机过载")
     while isRunning():
         sleep(1)
     print ('finished')

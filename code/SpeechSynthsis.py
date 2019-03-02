@@ -4,6 +4,7 @@ from pypinyin import pinyin, Style
 from pypinyin.style import register
 import re
 import numpy as np
+from NumToChinese import numToChinese
 
 from ToAudio import ToAudio
 from time import ctime,sleep
@@ -23,11 +24,16 @@ def depart(pinyins):
             sentence.append(pronounce + tone)
 
     ToAudio.speechSynthesis(sentence, num)
+    pass
 
 def synthesis(sentence):
+    print (sentence)
+    sentence = numToChinese(str(sentence))
     pinyins = pinyin(sentence, style=Style.TONE2)
     print (pinyins)
     depart(pinyins)
+    pass
 
 def isRunning():
     return ToAudio.isRunning()
+    pass
