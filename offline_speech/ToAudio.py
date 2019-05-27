@@ -30,7 +30,7 @@ class ToAudio:
         while True:
             if self.running_thread_num_ - num < 2:
                 t = threading.Thread(target=self.__speechSynthesisThread, args=(sentence,num))
-                t.run()
+                t.start()
                 thread_num_lock.acquire()
                 self.thread_num_ = self.thread_num_ + 1 # sum of thread
                 thread_num_lock.release()
