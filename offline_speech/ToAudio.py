@@ -6,8 +6,11 @@ from pydub import AudioSegment
 from time import ctime,sleep
 import threading
 import os
-
+lock = threading.Lock()
+thread_num_lock = threading.Lock()
 pygame.mixer.init()
+
+t_group = []
 
 class ToAudio:
     running_thread_num_ = 0
@@ -27,9 +30,10 @@ class ToAudio:
         while True:
             if self.running_thread_num_ - num < 2:
                 t = threading.Thread(target=self.__speechSynthesisThread, args=(sentence,num))
-                t.setDaemon(False)
-                t.start()
+                t.run()
+                thread_num_lock.acquire()
                 self.thread_num_ = self.thread_num_ + 1 # sum of thread
+                thread_num_lock.release()
                 sleep(0.1)
                 break
             sleep(1)
@@ -43,22 +47,27 @@ class ToAudio:
 
     @classmethod
     def __speechSynthesisThread(self, sentence, num):
-        # print ('start synthesis...')
-        # print (sentence)
         size = len(sentence)
-        voices = False
-        # print ('test1',num)
+        voices = None
         file_name = self.cache_file_+'/voices'+str(num)+'.wav'
         for word in sentence:
             mp3_file = self.voice_file_+'/'+word+'.mp3'
+            if not os.path.exists(mp3_file):
+                print (mp3_file + " not exists, please add")
+                continue
             pronounce = AudioSegment.from_mp3(mp3_file)
-            if voices == False:
+            if voices == None:
                 voices = pronounce
             else:
                 voices = voices + pronounce 
-        voices.export(file_name, format="wav")
-        # print ('test2',num)
-        self.__playSpeech(file_name, num)
+        
+        if voices != None:
+            voices.export(file_name, format="wav")
+            self.__playSpeech(file_name, num)
+        else:
+            thread_num_lock.acquire()
+            self.thread_num_ = self.thread_num_-1
+            thread_num_lock.release()
         pass
     
     @classmethod
@@ -79,7 +88,7 @@ class ToAudio:
 
     @classmethod
     def isRunning(self):
-        if (self.running_thread_num_ == self.thread_num_):
+        if (self.running_thread_num_ >= self.thread_num_):
             return False
         else:
             running_thread_num = 0
