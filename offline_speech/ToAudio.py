@@ -10,8 +10,6 @@ lock = threading.Lock()
 thread_num_lock = threading.Lock()
 pygame.mixer.init()
 
-t_group = []
-
 class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0

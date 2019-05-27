@@ -12,6 +12,7 @@ CHUNK = int(RATE/20) # RATE/number of updates per second
 def sound_plot(stream):
     t1 = time.time() # time starting
     data = np.fromstring(stream.read(CHUNK),dtype = np.int16)
+    print (data)
     pylab.plot(data)
     pylab.title(i)
     pylab.grid()
