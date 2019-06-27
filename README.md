@@ -13,6 +13,7 @@
 > ```` 
 #### 使用
 > ````   
+> mkdir cache
 > python3 demo.py   
 > ````  
 
