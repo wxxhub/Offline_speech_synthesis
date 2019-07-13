@@ -6,7 +6,7 @@ from offline_speech.SpeechSynthsis import SpeechSynthsis
 
 def main():
     # SpeechSynthsis.setFile("test", "test")  #change file path
-    SpeechSynthsis.synthesis("警报，123号电机过载,真是费劲呀，哈哈哈,")
+    SpeechSynthsis.synthesis("孔子曰，123号电机过载,真是费劲呀，哈哈哈,")
     while SpeechSynthsis.isRunning():
         sleep(1)
         pass

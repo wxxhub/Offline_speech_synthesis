@@ -14,7 +14,7 @@ class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0
     cache_file_ = "cache"
-    voice_file_ = "voice"
+    voice_file_ = "cut_wav"
 
     def __init__(self):
         # create cache file
@@ -49,11 +49,11 @@ class ToAudio:
         voices = None
         file_name = self.cache_file_+'/voices'+str(num)+'.wav'
         for word in sentence:
-            mp3_file = self.voice_file_+'/'+word+'.mp3'
+            mp3_file = self.voice_file_+'/'+word+'.wav'
             if not os.path.exists(mp3_file):
                 print (mp3_file + " not exists, please add")
                 continue
-            pronounce = AudioSegment.from_mp3(mp3_file)
+            pronounce = AudioSegment.from_wav(mp3_file)
             if voices == None:
                 voices = pronounce
             else:
