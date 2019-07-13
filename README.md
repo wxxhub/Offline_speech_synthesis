@@ -12,9 +12,11 @@
 > sudo apt-get install ffmpeg  
 > pip3 install -r requirment.txt   
 > ```` 
+
 #### 使用
 > ````   
 > 
+> mkdir cache
 > python3 demo.py   
 > ````  
 
