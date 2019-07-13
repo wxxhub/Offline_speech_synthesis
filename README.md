@@ -9,7 +9,6 @@
 
 #### 依赖安装
 > ```` 
-> sudo apt-get install ffmpeg  
 > pip3 install -r requirment.txt   
 > ```` 
 

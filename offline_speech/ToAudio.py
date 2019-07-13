@@ -2,10 +2,11 @@
 
 import pygame
 import time
-from pydub import AudioSegment
-from time import ctime,sleep
+import wave
+from time import sleep
 import threading
 import os
+
 lock = threading.Lock()
 thread_num_lock = threading.Lock()
 pygame.mixer.init()
@@ -14,7 +15,7 @@ class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0
     cache_file_ = "cache"
-    voice_file_ = "cut_wav"
+    voice_file_ = "wav"
 
     def __init__(self):
         # create cache file
@@ -46,28 +47,32 @@ class ToAudio:
     @classmethod
     def __speechSynthesisThread(self, sentence, num):
         size = len(sentence)
-        voices = None
-        file_name = self.cache_file_+'/voices'+str(num)+'.wav'
+        datas = []
+        success = False
         for word in sentence:
-            mp3_file = self.voice_file_+'/'+word+'.wav'
-            if not os.path.exists(mp3_file):
-                print (mp3_file + " not exists, please add")
+            wav_file = self.voice_file_+'/'+word+'.wav'
+            if not os.path.exists(wav_file):
+                print (wav_file + " not exists, please add")
                 continue
-            pronounce = AudioSegment.from_wav(mp3_file)
-            if voices == None:
-                voices = pronounce
-            else:
-                voices = voices + pronounce 
-        
-        if voices != None:
-            voices.export(file_name, format="wav")
+
+            read_wave = wave.open(wav_file, 'rb')
+            datas.append( [read_wave.getparams(), read_wave.readframes(read_wave.getnframes())] )
+            read_wave.close()
+            success = True
+
+        if success:
+            file_name = self.cache_file_+'/voices'+str(num)+'.wav'
+            out_put_wave = wave.open(file_name,  'wb')
+            out_put_wave.setparams(datas[0][0])
+            for data in datas:
+                out_put_wave.writeframes(data[1])
+            out_put_wave.close()
             self.__playSpeech(file_name, num)
         else:
             thread_num_lock.acquire()
             self.thread_num_ = self.thread_num_-1
             thread_num_lock.release()
-        pass
-    
+
     @classmethod
     def __playSpeech(self, file_name, num):
         # print ("playing...")

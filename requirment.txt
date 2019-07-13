@@ -1,5 +1,5 @@
 pypinyin
 pygame
-pydub
 numpy
 hanint
+wave
