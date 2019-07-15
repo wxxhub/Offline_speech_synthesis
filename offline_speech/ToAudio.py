@@ -6,6 +6,7 @@ import wave
 from time import sleep
 import threading
 import os
+import struct
 
 lock = threading.Lock()
 thread_num_lock = threading.Lock()
@@ -15,7 +16,7 @@ class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0
     cache_file_ = "cache"
-    voice_file_ = "wav"
+    voice_file_ = "man_wav"
 
     def __init__(self):
         # create cache file
@@ -51,6 +52,7 @@ class ToAudio:
         success = False
         for word in sentence:
             wav_file = self.voice_file_+'/'+word+'.wav'
+            print (wav_file)
             if not os.path.exists(wav_file):
                 print (wav_file + " not exists, please add")
                 continue
@@ -63,15 +65,21 @@ class ToAudio:
         if success:
             file_name = self.cache_file_+'/voices'+str(num)+'.wav'
             out_put_wave = wave.open(file_name,  'wb')
-            out_put_wave.setparams(datas[0][0])
+            out_put_wave.setparams(datas[1][0])
+            print (datas[0][0])
             for data in datas:
                 out_put_wave.writeframes(data[1])
+                
             out_put_wave.close()
             self.__playSpeech(file_name, num)
         else:
             thread_num_lock.acquire()
             self.thread_num_ = self.thread_num_-1
             thread_num_lock.release()
+    
+    @classmethod
+    def __pushData(out_put_wave, data):
+        pass
 
     @classmethod
     def __playSpeech(self, file_name, num):

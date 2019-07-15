@@ -1,8 +1,8 @@
 from pydub import AudioSegment
 import os
 
-mp3_path = "voice/"
-wave_path = "wav/"
+mp3_path = "man_mp3/"
+wave_path = "man_wav/"
 
 def main():
     files = os.listdir(mp3_path)
