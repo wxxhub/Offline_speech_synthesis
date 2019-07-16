@@ -9,7 +9,7 @@ import os
 
 lock = threading.Lock()
 thread_num_lock = threading.Lock()
-pygame.mixer.init(16000) 
+pygame.mixer.init(frequency=16000, channels=1) 
 class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0
@@ -56,18 +56,22 @@ class ToAudio:
                 continue
 
             read_wave = wave.open(wav_file, 'r')
-            datas.append([read_wave.getparams(), read_wave.readframes(read_wave.getnframes())] )
+
+            if not success:
+                params = read_wave.getparams()
+
+            data = read_wave.readframes(read_wave.getnframes())
+            datas.append(data)
             read_wave.close()
             success = True
+            
 
         if success:
             file_name = self.cache_file_+'/voices'+str(num)+'.wav'
             out_put_wave = wave.open(file_name,  'w')
-            out_put_wave.setparams(datas[1][0])
-            print (datas[0][0])
+            out_put_wave.setparams(params)
             for data in datas:
-                out_put_wave.writeframes(data[1])
-            
+                out_put_wave.writeframes(data)
             out_put_wave.close()
             self.__playSpeech(file_name, num)
         else:
