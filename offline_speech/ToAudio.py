@@ -1,22 +1,20 @@
 #coding=utf-8
 
-import pygame
+import pygame.mixer
 import time
 import wave
 from time import sleep
 import threading
 import os
-import struct
 
 lock = threading.Lock()
 thread_num_lock = threading.Lock()
-pygame.mixer.init()
-
+pygame.mixer.init(16000) 
 class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0
     cache_file_ = "cache"
-    voice_file_ = "man_wav"
+    voice_file_ = "woman_wav"
 
     def __init__(self):
         # create cache file
@@ -57,19 +55,19 @@ class ToAudio:
                 print (wav_file + " not exists, please add")
                 continue
 
-            read_wave = wave.open(wav_file, 'rb')
-            datas.append( [read_wave.getparams(), read_wave.readframes(read_wave.getnframes())] )
+            read_wave = wave.open(wav_file, 'r')
+            datas.append([read_wave.getparams(), read_wave.readframes(read_wave.getnframes())] )
             read_wave.close()
             success = True
 
         if success:
             file_name = self.cache_file_+'/voices'+str(num)+'.wav'
-            out_put_wave = wave.open(file_name,  'wb')
+            out_put_wave = wave.open(file_name,  'w')
             out_put_wave.setparams(datas[1][0])
             print (datas[0][0])
             for data in datas:
                 out_put_wave.writeframes(data[1])
-                
+            
             out_put_wave.close()
             self.__playSpeech(file_name, num)
         else:
