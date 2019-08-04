@@ -14,7 +14,7 @@ class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0
     cache_file_ = "cache"
-    voice_file_ = "cut_man_wav"
+    voice_file_ = "wav"
 
     def __init__(self):
         # create cache file
