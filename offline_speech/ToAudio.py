@@ -14,7 +14,7 @@ class ToAudio:
     running_thread_num_ = 0
     thread_num_ = 0
     cache_file_ = "cache"
-    voice_file_ = "woman_wav"
+    voice_file_ = "cut_man_wav"
 
     def __init__(self):
         # create cache file
@@ -61,6 +61,7 @@ class ToAudio:
                 params = read_wave.getparams()
 
             data = read_wave.readframes(read_wave.getnframes())
+
             datas.append(data)
             read_wave.close()
             success = True
@@ -78,10 +79,6 @@ class ToAudio:
             thread_num_lock.acquire()
             self.thread_num_ = self.thread_num_-1
             thread_num_lock.release()
-    
-    @classmethod
-    def __pushData(out_put_wave, data):
-        pass
 
     @classmethod
     def __playSpeech(self, file_name, num):
@@ -107,7 +104,7 @@ class ToAudio:
             running_thread_num = 0
             thread_num = 0
             return True
-        pass
+        pass    
 
     @classmethod
     def printFile(self):
