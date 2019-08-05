@@ -10,40 +10,32 @@ from offline_speech.ToAudio import ToAudio
 from time import ctime,sleep
 
 class SpeechSynthsis:
-
+    to_audio = ToAudio()
     @classmethod
-    def synthesis(self, sentence):
-        print (sentence)
+    def append(self, sentence):
         sentence = numToChinese(str(sentence))
         pinyins = pinyin(sentence, style=Style.TONE2)
-        print (pinyins)
-        self.__depart(pinyins)
+
+        play_sentence = []
+        for pin_yin in pinyins:
+            tone = re.sub(u"([^\u0030-\u0039])", "", pin_yin[0])
+            pronounce = re.sub(u"([^\u0061-\u007a])", "", pin_yin[0])
+            if pronounce == '':
+                self.to_audio.append(play_sentence)
+                play_sentence = []
+            else:
+                play_sentence.append(pronounce + tone)
         pass
     
     @classmethod
     def setFile(self, voice_file, cache_file):
-        ToAudio.setFile(voice_file, cache_file)
+        self.to_audio.setFile(voice_file, cache_file)
         pass
 
     @classmethod
-    def __depart(self, pinyins):
-        num = 0
-        sentence = []
-        for pinyin in pinyins:
-            tone = re.sub(u"([^\u0030-\u0039])", "", pinyin[0])
-            pronounce = re.sub(u"([^\u0061-\u007a])", "", pinyin[0])
-            if pronounce == '':
-                # sentence.append('null')
-                ToAudio.speechSynthesis(sentence, num)
-                num = num + 1
-                sentence = []
-            else:
-                sentence.append(pronounce + tone)
-
-        ToAudio.speechSynthesis(sentence, num)
-        pass
+    def dataEmpty(self):
+        return self.to_audio.dataEmpty()
 
     @classmethod
-    def isRunning(self):
-        return ToAudio.isRunning()
-        pass
+    def close(self):
+        self.to_audio.close()

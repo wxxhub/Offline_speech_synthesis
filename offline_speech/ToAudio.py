@@ -6,35 +6,48 @@ import wave
 from time import sleep
 import threading
 import os
+from queue import Queue
 
 lock = threading.Lock()
 thread_num_lock = threading.Lock()
 pygame.mixer.init(frequency=16000, channels=1) 
+
 class ToAudio:
-    running_thread_num_ = 0
-    thread_num_ = 0
+    play_num_ = 0
+    cache_file_num = 0
     cache_file_ = "cache"
     voice_file_ = "wav"
+    sentence_queue_ = Queue()
+    play_thread_ = None
+    enable_ = False
 
+    @classmethod
     def __init__(self):
         # create cache file
+        self.enable_ = True
         if not os.path.exists(self.cache_file_):
             os.mkdir(self.cache_file_)
+
+        self.play_thread_ = threading.Thread(target=self.__playThread)
+        self.play_thread_.start()
         pass
 
     @classmethod
-    def speechSynthesis(self, sentence, num):
-        # print ('test')
-        while True:
-            if self.running_thread_num_ - num < 2:
-                t = threading.Thread(target=self.__speechSynthesisThread, args=(sentence,num))
-                t.start()
-                thread_num_lock.acquire()
-                self.thread_num_ = self.thread_num_ + 1 # sum of thread
-                thread_num_lock.release()
-                sleep(0.1)
-                break
-            sleep(1)
+    def __del__(self):
+        self.play_thread_.join()
+        pass
+    
+    @classmethod
+    def __playThread(self):
+        while self.enable_:
+            if not self.sentence_queue_.empty():
+                sentence = self.sentence_queue_.get()
+                result, file_name = self.__synthesis(sentence)
+                if result:
+                    while self.play_num_ > 1:
+                        sleep(0.1)
+                    self.__playSpeech(file_name)
+            sleep(0.1)
         pass
 
     @classmethod
@@ -44,8 +57,7 @@ class ToAudio:
         pass
 
     @classmethod
-    def __speechSynthesisThread(self, sentence, num):
-        size = len(sentence)
+    def __synthesis(self, sentence):
         datas = []
         success = False
         for word in sentence:
@@ -68,46 +80,49 @@ class ToAudio:
             
 
         if success:
-            file_name = self.cache_file_+'/voices'+str(num)+'.wav'
+            file_name = self.cache_file_+'/voices'+str(self.cache_file_num)+'.wav'
+            self.cache_file_num = self.cache_file_num + 1
             out_put_wave = wave.open(file_name,  'w')
             out_put_wave.setparams(params)
             for data in datas:
                 out_put_wave.writeframes(data)
             out_put_wave.close()
-            self.__playSpeech(file_name, num)
-        else:
-            thread_num_lock.acquire()
-            self.thread_num_ = self.thread_num_-1
-            thread_num_lock.release()
+            return True, file_name
+        
+        return False, ''
+            
 
     @classmethod
-    def __playSpeech(self, file_name, num):
-        # print ("playing...")
-        while True:
-            if num == self.running_thread_num_:
-                track = pygame.mixer.music.load(file_name)
-                pygame.mixer.music.play()
-                # time.sleep(size)
-                while pygame.mixer.music.get_busy():
-                    sleep(0.1)
-                self.running_thread_num_ = self.running_thread_num_ + 1
-                break
-            else:
-                sleep(0.5)
+    def __playSpeech(self, file_name):
+        self.play_num_ = self.play_num_ + 1
+        track = pygame.mixer.music.load(file_name)
+        pygame.mixer.music.play()
+
+        while pygame.mixer.music.get_busy():
+            sleep(0.1)
+
+        self.play_num_ = self.play_num_ - 1
         pass
-
-    @classmethod
-    def isRunning(self):
-        if (self.running_thread_num_ >= self.thread_num_):
-            return False
-        else:
-            running_thread_num = 0
-            thread_num = 0
-            return True
-        pass    
 
     @classmethod
     def printFile(self):
         print ("cache_file: "+self.cache_file_)
         print ("voice_file: "+self.voice_file_)
         pass
+    
+    @classmethod
+    def append(self, sentence):
+        self.sentence_queue_.put(sentence)
+        print (self.sentence_queue_)
+        pass
+
+    @classmethod
+    def dataEmpty(self):
+        if self.play_num_ > 0:
+            return False
+
+        return self.sentence_queue_.empty()
+
+    @classmethod
+    def close(self):
+        self.enable_ = False
