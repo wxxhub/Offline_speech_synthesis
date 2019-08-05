@@ -8,16 +8,14 @@
 > ubantu18 + python3.6.7  
 
 ## 依赖安装
-> ```` 
-> pip3 install -r requirment.txt   
-> ```` 
+```shell 
+pip3 install -r requirment.txt   
+```
 
 ## 使用
-> ````   
-> 
-> mkdir cache
-> python3 demo.py   
-> ````  
+```shell   
+python3 demo.py   
+```  
 
 ## 说明
 > 大更新!!! 更新线程方式, 只用一个线程, 节省资源, 提高灵活性.  
