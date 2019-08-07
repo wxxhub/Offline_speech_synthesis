@@ -6,9 +6,17 @@ from offline_speech.SpeechSynthsis import SpeechSynthsis
 
 def main():
     # SpeechSynthsis.setFile("test", "test")  #change file path
-    SpeechSynthsis.append("一二三四五,上山打老虎,老虎打不到,打到小松鼠,松鼠有几只,让我数一数,一二三四五，五只小松鼠")
-    while not SpeechSynthsis.dataEmpty():
+    SpeechSynthsis.append("一二三四五,上山打老虎老虎打不到打到小松鼠松鼠有几只,让我数一数,一二三四五，五只小松鼠")
+    i = 0
+    while True:
+        i = i + 1
+        if i == 4:
+            SpeechSynthsis.reset()
+            SpeechSynthsis.append("音频重置,这是新的音频")
         sleep(1)
+
+        if i > 10 and SpeechSynthsis.dataEmpty():
+            break
         pass
     SpeechSynthsis.close()
     print ('finished')

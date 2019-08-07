@@ -25,6 +25,8 @@ class SpeechSynthsis:
                 play_sentence = []
             else:
                 play_sentence.append(pronounce + tone)
+        
+        self.to_audio.append(play_sentence)
         pass
     
     @classmethod
@@ -35,6 +37,11 @@ class SpeechSynthsis:
     @classmethod
     def dataEmpty(self):
         return self.to_audio.dataEmpty()
+    
+    @classmethod
+    def reset(self):
+        self.to_audio.reset()
+        pass
 
     @classmethod
     def close(self):

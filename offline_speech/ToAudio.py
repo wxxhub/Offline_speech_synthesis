@@ -20,6 +20,7 @@ class ToAudio:
     sentence_queue_ = Queue()
     play_thread_ = None
     enable_ = False
+    resetting = False
 
     @classmethod
     def __init__(self):
@@ -40,20 +41,18 @@ class ToAudio:
     @classmethod
     def __playThread(self):
         while self.enable_:
-            if not self.sentence_queue_.empty():
-                sentence = self.sentence_queue_.get()
-                result, file_name = self.__synthesis(sentence)
-                if result:
-                    while self.play_num_ > 1:
-                        sleep(0.1)
-                    self.__playSpeech(file_name)
+            while not self.resetting and self.enable_:
+                if not self.sentence_queue_.empty():
+                    sentence = self.sentence_queue_.get()
+                    result, file_name = self.__synthesis(sentence)
+                    if result:
+                        while self.play_num_ > 1 and not self.resetting and self.enable_:
+                            sleep(0.1)
+                        
+                        if not self.resetting and self.enable_:
+                            self.__playSpeech(file_name)
+                sleep(0.1)
             sleep(0.1)
-        pass
-
-    @classmethod
-    def setFile(self, voice_file, cache_file):
-        self.cache_file_ = cache_file
-        self.voice_file_ = voice_file
         pass
 
     @classmethod
@@ -62,7 +61,7 @@ class ToAudio:
         success = False
         for word in sentence:
             wav_file = self.voice_file_+'/'+word+'.wav'
-            print (wav_file)
+            # print (wav_file)
             if not os.path.exists(wav_file):
                 print (wav_file + " not exists, please add")
                 continue
@@ -98,10 +97,29 @@ class ToAudio:
         track = pygame.mixer.music.load(file_name)
         pygame.mixer.music.play()
 
-        while pygame.mixer.music.get_busy():
+        while not self.resetting and pygame.mixer.music.get_busy():
             sleep(0.1)
 
-        self.play_num_ = self.play_num_ - 1
+        pygame.mixer.music.stop()
+        if self.play_num_ != 0:
+            self.play_num_ = self.play_num_ - 1
+        pass
+
+    @classmethod
+    def reset(self):
+        self.resetting = True
+        self.sentence_queue_.queue.clear()
+        self.play_num_ = 0
+        self.cache_file_num = 0
+        while pygame.mixer.music.get_busy():
+            pass
+        self.resetting = False
+        pass
+
+    @classmethod
+    def setFile(self, voice_file, cache_file):
+        self.cache_file_ = cache_file
+        self.voice_file_ = voice_file
         pass
 
     @classmethod
@@ -113,7 +131,7 @@ class ToAudio:
     @classmethod
     def append(self, sentence):
         self.sentence_queue_.put(sentence)
-        print (self.sentence_queue_)
+        # print (sentence)
         pass
 
     @classmethod
