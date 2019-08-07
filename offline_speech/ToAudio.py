@@ -39,6 +39,46 @@ class ToAudio:
         pass
     
     @classmethod
+    def reset(self):
+        self.resetting = True
+        self.sentence_queue_.queue.clear()
+        self.play_num_ = 0
+        self.cache_file_num = 0
+        while pygame.mixer.music.get_busy():
+            pass
+        self.resetting = False
+        pass
+
+    @classmethod
+    def setFile(self, voice_file, cache_file):
+        self.cache_file_ = cache_file
+        self.voice_file_ = voice_file
+        pass
+
+    @classmethod
+    def printFile(self):
+        print ("cache_file: "+self.cache_file_)
+        print ("voice_file: "+self.voice_file_)
+        pass
+    
+    @classmethod
+    def append(self, sentence):
+        self.sentence_queue_.put(sentence)
+        # print (sentence)
+        pass
+
+    @classmethod
+    def dataEmpty(self):
+        if self.play_num_ > 0:
+            return False
+
+        return self.sentence_queue_.empty()
+
+    @classmethod
+    def close(self):
+        self.enable_ = False
+    
+    @classmethod
     def __playThread(self):
         while self.enable_:
             # resetting and not enable break
@@ -105,43 +145,3 @@ class ToAudio:
         if self.play_num_ != 0:
             self.play_num_ = self.play_num_ - 1
         pass
-
-    @classmethod
-    def reset(self):
-        self.resetting = True
-        self.sentence_queue_.queue.clear()
-        self.play_num_ = 0
-        self.cache_file_num = 0
-        while pygame.mixer.music.get_busy():
-            pass
-        self.resetting = False
-        pass
-
-    @classmethod
-    def setFile(self, voice_file, cache_file):
-        self.cache_file_ = cache_file
-        self.voice_file_ = voice_file
-        pass
-
-    @classmethod
-    def printFile(self):
-        print ("cache_file: "+self.cache_file_)
-        print ("voice_file: "+self.voice_file_)
-        pass
-    
-    @classmethod
-    def append(self, sentence):
-        self.sentence_queue_.put(sentence)
-        # print (sentence)
-        pass
-
-    @classmethod
-    def dataEmpty(self):
-        if self.play_num_ > 0:
-            return False
-
-        return self.sentence_queue_.empty()
-
-    @classmethod
-    def close(self):
-        self.enable_ = False
