@@ -41,16 +41,17 @@ class ToAudio:
     @classmethod
     def __playThread(self):
         while self.enable_:
+            # resetting and not enable break
             while not self.resetting and self.enable_:
                 if not self.sentence_queue_.empty():
                     sentence = self.sentence_queue_.get()
                     result, file_name = self.__synthesis(sentence)
                     if result:
+                        # 如果等待播放的数量大于一,等待
                         while self.play_num_ > 1 and not self.resetting and self.enable_:
                             sleep(0.1)
                         
-                        if not self.resetting and self.enable_:
-                            self.__playSpeech(file_name)
+                        self.__playSpeech(file_name)
                 sleep(0.1)
             sleep(0.1)
         pass
