@@ -1,4 +1,5 @@
 pypinyin
+ChineseTone
 pygame
 numpy
 hanint
