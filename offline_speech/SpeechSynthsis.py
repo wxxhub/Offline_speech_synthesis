@@ -1,19 +1,19 @@
 #coding=utf-8
 
-from ChineseTone import *
 import re
-import numpy as np
-from offline_speech.NumToChinese import numToChinese
+from time import ctime, sleep
 
+import numpy as np
+from ChineseTone import *
+from offline_speech.NumToChinese import numToChinese
 from offline_speech.ToAudio import ToAudio
-from time import ctime,sleep
+
 
 class SpeechSynthsis:
     to_audio = ToAudio()
     @classmethod
     def append(self, sentence):
         sentence = numToChinese(str(sentence))
-        # pinyins = pinyin(sentence, style=Style.TONE2, heteronym=True)
         pinyins = PinyinHelper.convertToPinyinFromSentence(sentence, pinyinFormat=PinyinFormat.WITH_TONE_NUMBER)
 
         play_sentence = []
