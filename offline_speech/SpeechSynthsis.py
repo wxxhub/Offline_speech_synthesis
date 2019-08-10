@@ -10,13 +10,17 @@ from offline_speech.ToAudio import ToAudio
 
 
 class SpeechSynthsis:
-    to_audio = ToAudio()
+    @classmethod
+    def __init__(self, goal_frequency):
+        self.to_audio = ToAudio(goal_frequency)
+
     @classmethod
     def append(self, sentence):
         sentence = numToChinese(str(sentence))
         pinyins = PinyinHelper.convertToPinyinFromSentence(sentence, pinyinFormat=PinyinFormat.WITH_TONE_NUMBER)
 
         play_sentence = []
+        print (pinyins)
         for pin_yin in pinyins:
             tone = re.sub(u"([^\u0030-\u0039])", "", pin_yin)
             pronounce = re.sub(u"([^\u0061-\u007a])", "", pin_yin)

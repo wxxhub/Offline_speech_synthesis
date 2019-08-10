@@ -10,7 +10,6 @@ from queue import Queue
 
 lock = threading.Lock()
 thread_num_lock = threading.Lock()
-pygame.mixer.init(frequency=16000, channels=1) 
 
 class ToAudio:
     play_num_ = 0
@@ -23,7 +22,9 @@ class ToAudio:
     resetting = False
 
     @classmethod
-    def __init__(self):
+    def __init__(self, goal_frequency = 16000):
+        pygame.mixer.init(frequency=goal_frequency, channels=1) 
+
         # create cache file
         self.enable_ = True
         if not os.path.exists(self.cache_file_):

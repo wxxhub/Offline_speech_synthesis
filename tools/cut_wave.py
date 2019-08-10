@@ -2,8 +2,8 @@
 import os
 import wave
 
-wave_path = "../man_wav/"
-cut_wave_path = "../cut_man_wav/"
+wave_path = "../t/"
+cut_wave_path = "../tt/"
 
 import numpy as np
 
