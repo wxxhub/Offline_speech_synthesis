@@ -19,6 +19,7 @@ class ToAudio:
     sentence_queue_ = Queue()
     play_thread_ = None
     enable_ = False
+    playing_ = False
     resetting = False
 
     @classmethod
@@ -74,6 +75,10 @@ class ToAudio:
             return False
 
         return self.sentence_queue_.empty()
+
+    @classmethod
+    def playing(self):
+        return self.playing_
 
     @classmethod
     def close(self):
@@ -135,6 +140,7 @@ class ToAudio:
 
     @classmethod
     def __playSpeech(self, file_name):
+        self.playing_ = True
         self.play_num_ = self.play_num_ + 1
         track = pygame.mixer.music.load(file_name)
         pygame.mixer.music.play()
@@ -145,4 +151,6 @@ class ToAudio:
         pygame.mixer.music.stop()
         if self.play_num_ != 0:
             self.play_num_ = self.play_num_ - 1
+
+        self.playing_ = False
         pass
