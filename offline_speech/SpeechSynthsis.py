@@ -18,13 +18,13 @@ class SpeechSynthsis:
     @classmethod
     def append(self, sentence):
         split_sentences = re.split(u"[%s]+"%self.punctuation, sentence)
-        # print (split_sentences)
+  
         for split_sentence in split_sentences:
             split_sentence = numToChinese(str(split_sentence))
             pinyins = PinyinHelper.convertToPinyinFromSentence(split_sentence, pinyinFormat=PinyinFormat.WITH_TONE_NUMBER)
 
             play_sentence = []
-            print (pinyins)
+            
             for pin_yin in pinyins:
                 tone = re.sub(u"([^\u0030-\u0039])", "", pin_yin)
                 pronounce = re.sub(u"([^\u0061-\u007a])", "", pin_yin)

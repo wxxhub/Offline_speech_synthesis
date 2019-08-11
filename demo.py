@@ -6,7 +6,7 @@ from time import ctime, sleep
 from offline_speech.SpeechSynthsis import SpeechSynthsis
 
 def main():
-    synthsis = SpeechSynthsis(15500)
+    synthsis = SpeechSynthsis(16000)
 
     ##### reset test
     synthsis.append("音频重置重要,123.78.88,上山打老虎老虎打不到打到小松鼠松鼠有几只,一二三四五，五只小松鼠")
@@ -21,8 +21,12 @@ def main():
         
         if synthsis.playing():
             print ('playing...')
+        
+        if i == 15:
+            print ("add")
+            synthsis.append("这是新加的音频")
 
-        if i > 15 and synthsis.dataEmpty():
+        if i > 20 and synthsis.dataEmpty():
             break
         pass
 

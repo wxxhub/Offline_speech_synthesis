@@ -21,9 +21,16 @@ class ToAudio:
     enable_ = False
     playing_ = False
     resetting = False
+    max_frequency = 22050
+    min_frequency = 10000
 
     @classmethod
     def __init__(self, goal_frequency = 16000):
+        if goal_frequency < self.min_frequency:
+            goal_frequency = self.min_frequency
+        elif goal_frequency > self.max_frequency:
+            goal_frequency = self.max_frequency
+            
         pygame.mixer.init(frequency=goal_frequency, channels=1) 
 
         # create cache file
