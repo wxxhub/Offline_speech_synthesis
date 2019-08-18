@@ -17,8 +17,14 @@
 > ubantu18 + python3.6.7  
 
 ## 依赖安装
-```shell 
+```shell
+## python3
 pip3 install -r requirment.txt   
+
+## python2
+pip install -r requirment.txt  
+
+## 根据实际情况使用
 ```
 
 ## 使用
