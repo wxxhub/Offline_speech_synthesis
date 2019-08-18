@@ -24,7 +24,6 @@ def numToChinese(input_str):
     num = re.search(r'([0-9]+)', input_str)
     while num:
         num_str = num.group()
-        print (num_str)
         num_chinese = __encode(num_str)
         input_str = input_str.replace(num_str, num_chinese)
         num = re.search(r'([0-9]+)', input_str)
