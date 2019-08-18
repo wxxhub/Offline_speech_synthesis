@@ -6,7 +6,11 @@ import wave
 from time import sleep
 import threading
 import os
-from queue import Queue
+
+try:
+    from queue import Queue
+except:
+    from Queue import Queue
 
 lock = threading.Lock()
 thread_num_lock = threading.Lock()

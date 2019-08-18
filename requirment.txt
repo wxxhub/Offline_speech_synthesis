@@ -1,6 +1,4 @@
-pypinyin
 ChineseTone
 pygame
 numpy
-hanint
 wave
