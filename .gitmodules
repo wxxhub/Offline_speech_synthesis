@@ -1,3 +1,6 @@
 [submodule "speech_sysnthesis"]
 	path = speech_sysnthesis
 	url = git@github.com:wxxhub/speech_synthesis.git
+[submodule "speech_synthesis"]
+	path = speech_synthesis
+	url = git@github.com:wxxhub/speech_synthesis.git
