@@ -34,8 +34,8 @@ class SpeechSynthsis:
         pass
     
     @classmethod
-    def setFile(self, voice_file, cache_file):
-        self.to_audio.setFile(voice_file, cache_file)
+    def setFile(self, cache_file):
+        self.to_audio.setFile(cache_file)
         pass
 
     @classmethod

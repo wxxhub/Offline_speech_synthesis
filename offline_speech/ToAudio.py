@@ -29,7 +29,7 @@ class ToAudio:
     min_frequency = 10000
 
     @classmethod
-    def __init__(self, goal_frequency = 16000):
+    def __init__(self, goal_frequency = 16000, ):
         if goal_frequency < self.min_frequency:
             goal_frequency = self.min_frequency
         elif goal_frequency > self.max_frequency:
@@ -63,9 +63,8 @@ class ToAudio:
         pass
 
     @classmethod
-    def setFile(self, voice_file, cache_file):
+    def setCacheFile(self, cache_file):
         self.cache_file_ = cache_file
-        self.voice_file_ = voice_file
         pass
 
     @classmethod
