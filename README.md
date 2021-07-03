@@ -9,6 +9,9 @@
 > 暂时不支持小数, 因为部分场景考虑小数比较复杂.  
 > 适配python2.7.  
 
+## version2.1
+> 优化合成性能
+
 ## 离线语音合成的简单方法
 > 目前支持中文和阿拉伯数字  
 
@@ -17,6 +20,8 @@
 
 ## 依赖安装
 ```shell
+sudo apt-get install ffmpeg
+
 ## python3
 pip3 install -r requirment.txt   
 

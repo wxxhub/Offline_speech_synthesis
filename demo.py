@@ -1,12 +1,10 @@
 #coding=utf-8
 
-import sys
-from time import ctime, sleep
-
-from offline_speech.SpeechSynthsis import SpeechSynthsis
-
+from time import sleep
+from offline_speech_synthesis.offline_speech_synthesis import OfflineSpeechSynthesis
+goal_frequency = 16000
 def main():
-    synthsis = SpeechSynthsis(16000)
+    synthsis = OfflineSpeechSynthesis(goal_frequency, 'wav', 'cache')
 
     ##### reset test
     synthsis.append("音频重置重要,123.78.88,上山打老虎老虎打不到打到小松鼠松鼠有几只,一二三四五，五只小松鼠")
@@ -26,7 +24,7 @@ def main():
             print ("add")
             synthsis.append("这是新加的音频")
 
-        if i > 20 and synthsis.dataEmpty():
+        if i > 20 and not synthsis.playing():
             break
         pass
 
