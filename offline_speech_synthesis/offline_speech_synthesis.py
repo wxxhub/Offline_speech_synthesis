@@ -1,5 +1,5 @@
 import threading
-from time import ctime, sleep
+from time import sleep
 
 import pygame.mixer
 from speech_synthesis.SpeechSynthsis import SpeechSynthsis
@@ -14,6 +14,7 @@ class OfflineSpeechSynthesis:
     play_thread_ = None
     resetting_ = False
     playing_ = False
+    enable_ = True
 
     @classmethod
     def __init__(self, goal_frequency, voice_file, cache_file = None):
@@ -53,26 +54,34 @@ class OfflineSpeechSynthesis:
         self.cache_file_num = 0
         while pygame.mixer.music.get_busy():
             pass
+
         self.resetting_ = False
-        pass
+        self.speech_synthsis.reset()
         pass
 
     @classmethod
     def playing(self):
         return self.playing_
 
+    @classmethod
+    def close(self):
+        self.enable_ = False
+        self.speech_queue_.put("")
+        pass
+
 
     @classmethod
     def __playThread(self):
-        while True:
+        while self.enable_:
             file_name = self.speech_queue_.get()
-            self.__playSpeech(file_name)
+            if file_name:
+                self.__playSpeech(file_name)
         pass
 
     @classmethod
     def __playSpeech(self, file_name):
         self.playing_ = True
-        track = pygame.mixer.music.load(file_name)
+        pygame.mixer.music.load(file_name)
         pygame.mixer.music.play()
 
         while not self.resetting_ and pygame.mixer.music.get_busy():

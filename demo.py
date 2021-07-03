@@ -24,7 +24,7 @@ def main():
             print ("add")
             synthsis.append("这是新加的音频")
 
-        if i > 20 and synthsis.dataEmpty():
+        if i > 20 and not synthsis.playing():
             break
         pass
 
