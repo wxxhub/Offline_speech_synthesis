@@ -1,6 +1,6 @@
 import threading
 from time import sleep
-
+import os
 import pygame.mixer
 from speech_synthesis.SpeechSynthsis import SpeechSynthsis
 
@@ -42,7 +42,7 @@ class OfflineSpeechSynthesis:
         if not ok:
             return ok, ""
 
-        self.speech_queue_.put(file_name)
+        self.speech_queue_.put(os.path.join(self.speech_synthsis.getCacheFile(), file_name))
         return ok, file_name
         pass
 
