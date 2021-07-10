@@ -22,10 +22,12 @@ git submodule update
 sudo apt-get install ffmpeg
 
 ## python3
-pip3 install -r requirment.txt   
+pip3 install -r requirment.txt 
+pip3 install -r speech_synthesis/requirement.txt
 
 ## python2
 pip install -r requirment.txt  
+pip install -r speech_synthesis/requirement.txt
 
 ## 根据实际情况使用
 ```
