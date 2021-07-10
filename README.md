@@ -1,14 +1,5 @@
 # Offline_speech_synthesis
 
-## version1.1
-> 更新线程方式, 只用一个线程合成音频, 节省资源, 提高灵活性.  
-> 添加reset, 快速重置, 重新播放音频.  
-> 优化合成速度.  
-> 解决多音字问题.  
-> 添加频率设置, 可以变换频率, 改变声音, 值越小, 声音越浑厚, 值越大, 声音越尖锐, 10000-22050.  
-> 暂时不支持小数, 因为部分场景考虑小数比较复杂.  
-> 适配python2.7.  
-
 ## v2.0
 > 优化合成性能
 
@@ -17,6 +8,14 @@
 
 ## 开发环境
 > ubantu18 + python3.6.7  
+
+## 下载
+```
+git clone git@github.com:wxxhub/Offline_speech_synthesis.git
+cd Offline_speech_synthesis
+git submodule init
+git submodule update
+```
 
 ## 依赖安装
 ```shell
