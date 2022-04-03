@@ -39,3 +39,5 @@ python3 demo.py
 
 ## 说明
 > wav为处理过后的音频,更换音频可以提升合成效果。 
+
+[语言合成服务](https://github.com/wxxhub/SpeechSynthesisServer)
