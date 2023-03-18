@@ -17,6 +17,11 @@ git submodule init
 git submodule update
 ```
 
+## 如何更新为remote submodule
+```
+git submodule update --remote --recursive
+```
+
 ## 依赖安装
 ```shell
 sudo apt-get install ffmpeg

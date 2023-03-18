@@ -3,6 +3,9 @@
 from time import sleep
 from offline_speech_synthesis.offline_speech_synthesis import OfflineSpeechSynthesis
 goal_frequency = 16000
+# 设置音调
+# goal_frequency = 26000
+
 def main():
     synthsis = OfflineSpeechSynthesis(goal_frequency, 'wav', 'cache')
 
